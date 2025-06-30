@@ -7,15 +7,18 @@ $ap = $_SESSION["ap"];
 $name = $_POST['name'];
 $email = $_POST['email'];
 
-require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/../vendor/autoload.php';
+
+// Carrega variáveis do .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv->load();
 
 $duration = 30; //Duration of authorization in minutes
-$site_id = 'site_id'; //Site ID found in URL (https://1.1.1.1:8443/manage/site/<site_ID>/devices/1/50)
-
-$controlleruser     = 'email@email.com'; // the user name for access to the UniFi Controller
-$controllerpassword = 'senha'; // the password for access to the UniFi Controller
-$controllerurl      = 'https://seuip:8443'; // full url to the UniFi Controller, eg. 'https://22.22.11.11:8443'
-$controllerversion  = '9.2.87'; // the version of the Controller software, eg. '4.6.6' (must be at least 4.0.0)
+$site_id = $_ENV['SITE_ID'];
+$controlleruser     = $_ENV['CONTROLLER_USER'];
+$controllerpassword = $_ENV['CONTROLLER_PASSWORD'];
+$controllerurl      = $_ENV['CONTROLLER_URL'];
+$controllerversion  = $_ENV['CONTROLLER_VERSION'];
 $debug = false;
 
 $unifi_connection = new UniFi_API\Client($controlleruser, $controllerpassword, $controllerurl, $site_id, $controllerversion);
