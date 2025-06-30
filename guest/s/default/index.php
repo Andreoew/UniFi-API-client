@@ -1,14 +1,11 @@
 <?php
-
 session_start();
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../../vendor/autoload.php';
 
-// Carrega variáveis do .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../');
 $dotenv->load();
 
-// Validação das variáveis de ambiente
 $required_envs = [
     'CONTROLLER_USER',
     'CONTROLLER_PASSWORD',
@@ -22,9 +19,40 @@ foreach ($required_envs as $env) {
     }
 }
 
-// Validação dos dados de sessão e POST
+// Se for GET, exibe o formulário de login
+if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Pega id e ap da query string e salva na sessão
+    if (isset($_GET['id']) && isset($_GET['ap'])) {
+        $_SESSION["id"] = $_GET["id"];
+        $_SESSION["ap"] = $_GET["ap"];
+    }
+    ?>
+    <!doctype html>
+    <html lang="pt-br">
+    <head>
+        <meta charset="utf-8">
+        <title>WiFi Portal</title>
+        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    </head>
+    <body>
+        <p>Bem-vindo!<br>
+        Por favor, faça login para acessar o Wi-Fi</p>
+        <form method="post" action="">
+            Nome
+            <input type="text" name="name" placeholder="Insira seu nome" required><br>
+            Email
+            <input type="email" name="email" placeholder="Insira seu email" required><br>
+            <input type="submit" value="Entrar">
+        </form>
+    </body>
+    </html>
+    <?php
+    exit;
+}
+
+// POST: processa autenticação
 if (empty($_SESSION["id"]) || empty($_SESSION["ap"])) {
-    die("Erro: sessão inválida. Dados do dispositivo não encontrados.");
+    die("Erro: dados do dispositivo não encontrados.");
 }
 if (empty($_POST['name']) || empty($_POST['email'])) {
     die("Erro: nome e e-mail são obrigatórios.");
@@ -67,20 +95,17 @@ try {
 } catch (Exception $e) {
     die("Erro: " . $e->getMessage());
 }
-
-// Aqui você pode salvar $name e $email em um banco de dados, se desejar.
 ?>
-
 <!doctype html>
 <html lang="pt-br">
-    <head>
-        <meta charset="utf-8">
-        <title>WiFi Portal</title>
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<meta http-equiv="refresh" content="5;url=https://www.google.com/" />
-    </head>
-    <body>
-            <p>Você está online!<br>
-            Obrigado por nos visitar!</p>
-    </body>
-</html>
+<head>
+    <meta charset="utf-8">
+    <title>WiFi Portal</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="refresh" content="5;url=https://www.google.com/" />
+</head>
+<body>
+    <p>Você está online!<br>
+    Obrigado por nos visitar!</p>
+</body>
+</html> 

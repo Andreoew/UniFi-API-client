@@ -9,6 +9,8 @@ COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . /app
 
+# Garante que a dependência dotenv será instalada
+RUN composer require vlucas/phpdotenv --no-interaction || true
 RUN composer install --no-interaction
 
-CMD ["php", "-S", "0.0.0.0:8443", "-t", "examples"] 
+CMD ["php", "-S", "0.0.0.0:8443", "-t", "."] 

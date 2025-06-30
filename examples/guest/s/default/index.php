@@ -1,11 +1,11 @@
 <?php
-
+require __DIR__ . '/../../../../src/conectando.php';
 session_start();
 
-require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../../../../vendor/autoload.php';
 
 // Carrega variáveis do .env
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../../../');
 $dotenv->load();
 
 // Validação das variáveis de ambiente
@@ -36,7 +36,7 @@ $name = $_POST['name'];
 $email = $_POST['email'];
 
 $duration          = 30; // minutos
-$site_id           = $_ENV['SITE_ID'];
+'t$site_id           = $_ENV['SITE_ID'];
 $controlleruser    = $_ENV['CONTROLLER_USER'];
 $controllerpassword= $_ENV['CONTROLLER_PASSWORD'];
 $controllerurl     = $_ENV['CONTROLLER_URL'];
@@ -73,14 +73,14 @@ try {
 
 <!doctype html>
 <html lang="pt-br">
-    <head>
-        <meta charset="utf-8">
-        <title>WiFi Portal</title>
-        <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-		<meta http-equiv="refresh" content="5;url=https://www.google.com/" />
-    </head>
-    <body>
-            <p>Você está online!<br>
-            Obrigado por nos visitar!</p>
-    </body>
-</html>
+<head>
+    <meta charset="utf-8">
+    <title>WiFi Portal</title>
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="refresh" content="5;url=https://www.google.com/" />
+</head>
+<body>
+    <p>Você está online!<br>
+    Obrigado por nos visitar!</p>
+</body>
+</html> 
